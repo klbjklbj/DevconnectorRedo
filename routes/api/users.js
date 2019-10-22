@@ -5,19 +5,23 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport=require('passport');
+const passport = require("passport");
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 // @route   POST api/users/register
 // @desc    Register a user
 // @access  Public
 router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
-        return res.status(400).json({
-          //key value pairs can be anything, but keep names meaningful to make things easier
-          email: "Email already exists"
-        });
+        errors.email = "Email already exists";
+        return res.status(400).json(errors);
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: "200",
@@ -55,6 +59,10 @@ router.post("/register", (req, res) => {
 // @access  Public
 
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   const email = req.body.email;
   const password = req.body.password;
 
@@ -62,9 +70,8 @@ router.post("/login", (req, res) => {
   User.findOne({ email }) //same as email:email
     .then(user => {
       if (!user) {
-        return res.status(404).json({
-          email: "User not found"
-        });
+        errors.email = "User not found";
+        return res.status(404).json(errors);
       }
       //compare user plain text password just entered to hashed user password in database
       bcrypt
@@ -72,9 +79,8 @@ router.post("/login", (req, res) => {
         //isMatch =variable name assigned to output of compare function
         .then(isMatch => {
           if (!isMatch) {
-            return res.status(400).json({
-              password: "Password does not match"
-            });
+            errors.password="Password does not match"
+            return res.status(400).json(errors);
           }
           const payload = {
             id: user.id,
@@ -97,17 +103,24 @@ router.post("/login", (req, res) => {
           );
         })
         .catch(err => console.log(err));
-    });
+    })
+    .catch(err=>console.log(err));
 });
 
 // @route   POST api/users/current
 // @desc    return current user
 // @access  Private
 router.get(
-  '/current',
-  passport.authenticate('jwt',{session:false}), //makes route private
-  (req,res)=>{
-    res.json({msg:'Success'});
-})
+  "/current",
+  passport.authenticate("jwt", { session: false }), //makes route private
+  (req, res) => {
+    res.json({
+      //what passport sends back from MongoDb
+      id: req.user.id,
+      email: req.user.email,
+      name: req.user.name
+    });
+  }
+);
 
 module.exports = router;

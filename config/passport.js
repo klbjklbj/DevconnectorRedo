@@ -15,9 +15,10 @@ module.exports = passport => {
       User.findById(payload.id)
         .then(user => {
           if (user) {
-            return done(null, user);
+            //done is built-in callback in passport
+            return done(null, user); //null = errors, user = object returned
           }
-          return done(null, false);
+          return done(null, false); //no user found
         })
         .catch(err => console.log(err));
     }) 
