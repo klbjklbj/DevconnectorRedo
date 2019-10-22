@@ -250,7 +250,7 @@ router.delete(
         // Get remove index
         const removeIndex = profile.education
           .map(item => item.id)
-          .indexOf(req.params.edu_id);
+          .indexOf(req.params.edu_id);//where id of item user is trying to delete is located
 
         // Splice out of array
         profile.education.splice(removeIndex, 1);
