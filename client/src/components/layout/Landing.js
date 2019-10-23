@@ -9,7 +9,7 @@ export default class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">InstaMini</h1>
+                <h1 className="display-3 mb-4">DevConnector</h1>
                 <p className="lead">
                   {" "}
                   Create a developer profile/portfolio, share posts and get help
@@ -19,7 +19,7 @@ export default class Landing extends Component {
                 <Link to="/register" className="btn btn-lg btn-info mr-2">
                   Sign Up
                 </Link>
-                <Link href="/login" className="btn btn-lg btn-light">
+                <Link to="/login" className="btn btn-lg btn-light">
                   Login
                 </Link>
               </div>
