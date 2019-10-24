@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
@@ -30,7 +30,7 @@ if (localStorage.jwtToken) {
   }
 }
 
-class App extends component() {
+class App extends Component() {
   render() {
     return (
       //all these componenets can now share store via Provider

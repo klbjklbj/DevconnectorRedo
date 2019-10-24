@@ -31,6 +31,7 @@ class Login extends Component {
     };
 
     this.props.loginUser(newUser);
+<<<<<<< HEAD
   }
 
   //triggers when props gets new data (nextProps)
@@ -43,6 +44,20 @@ class Login extends Component {
     }
   }
 
+=======
+  }
+
+  //triggers when props gets new data (nextProps)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated){
+      this.props.history.push('/dashboard');
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+>>>>>>> play
   render() {
     //read errors from state and write to UI
     const { errors } = this.state; //same as const errors = this.state.errors
@@ -97,14 +112,23 @@ class Login extends Component {
   }
 }
 
+<<<<<<< HEAD
 //ensure this data from redux store is ready and available
+=======
+//Make sure all props are available and ready
+>>>>>>> play
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
+<<<<<<< HEAD
 //take these from redux store and put into props
+=======
+//take redux state/store data and attach to properties of component
+//say what data we want
+>>>>>>> play
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
