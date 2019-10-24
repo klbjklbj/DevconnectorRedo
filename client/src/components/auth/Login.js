@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import classnames from "classnames";
+import { connect } from "react-redux"; //connects component to redux store
+import { loginUser } from "../../actions/authActions"; //sign-in button fires this
+import PropTypes from "prop-types";
 
 class Login extends Component {
   constructor() {
@@ -28,16 +30,19 @@ class Login extends Component {
       password: this.state.password
     };
 
-    //equivalent of postman call
-    axios
-      .post("/api/users/login", newUser)
-      .then(res => console.log(res.data))
-      .catch(err =>
-        this.setState({
-          errors: err.response.data //put error in state
-        })
-      );
+    this.props.loginUser(newUser);
   }
+
+  //triggers when props gets new data (nextProps)
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.auth.isAuthenticated){
+      this.props.history.push('/dashboard');
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   render() {
     //read errors from state and write to UI
     const { errors } = this.state; //same as const errors = this.state.errors
@@ -92,4 +97,22 @@ class Login extends Component {
   }
 }
 
-export default Login;
+//ensure this data from redux store is ready and available
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+//take these from redux store and put into props
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+//connect is library that connects component to store
+//connect has two parameters 1)what to call when data comes in and 2) what to call for sending data out
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
