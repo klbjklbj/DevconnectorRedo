@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import classnames from "classnames";
-import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
-import PropTypes from 'prop-types';
-
+import { connect } from "react-redux"; //connects component to redux store
+import { loginUser } from "../../actions/authActions"; //sign-in button fires this
+import PropTypes from "prop-types";
 
 class Login extends Component {
   constructor() {
@@ -36,7 +35,11 @@ class Login extends Component {
 
   //triggers when props gets new data (nextProps)
   componentWillReceiveProps(nextProps) {
+<<<<<<< HEAD
     if (nextProps.auth.isAuthenticated){
+=======
+    if(nextProps.auth.isAuthenticated){
+>>>>>>> e9d37f9bed8a924ef3237b5cb5e72388eb9b7828
       this.props.history.push('/dashboard');
     }
     if (nextProps.errors) {
@@ -98,15 +101,23 @@ class Login extends Component {
   }
 }
 
+<<<<<<< HEAD
 //Make sure all props are available and ready
+=======
+//ensure this data from redux store is ready and available
+>>>>>>> e9d37f9bed8a924ef3237b5cb5e72388eb9b7828
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
+<<<<<<< HEAD
 //take redux state/store data and attach to properties of component
 //say what data we want
+=======
+//take these from redux store and put into props
+>>>>>>> e9d37f9bed8a924ef3237b5cb5e72388eb9b7828
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
