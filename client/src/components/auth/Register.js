@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from 'axios';
 import classnames from 'classnames';
+import {registerUser}from '../../actions/authActions';
+import {connect} from 'react-redux'; //connects component to redux store
+import {PropTypes} from 'prop-types'; //makes sure prop types exist before component gets loaded                                
 
 class Register extends Component {
   constructor(){
@@ -32,13 +34,16 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    //equivalent of postman call
-    axios
-      .post('/api/users/register', newUser)
-      .then(res=>console.log(res.data))
-      .catch(err=>this.setState({
-        errors:err.response.data //put error in state
-      }));
+
+    this.props.registerUser(newUser, this.props.history);
+
+  }
+
+  //triggers when props gets new data (nextProps)
+  componentWillReceiveProps(nextProps){
+    if(nextProps.errors){
+      this.setState({errors:nextProps.errors})
+    }
   }
   
   render() {
@@ -130,4 +135,23 @@ class Register extends Component {
   }
 }
 
-export default Register;
+//make sure prop types exist before component gets loaded
+//PropTypes is library
+Register.propTypes={
+  registerUser:PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+//take redux state/store data and attach to properties of component
+//say what data we want
+const mapStateToProps=(state)=>({
+  auth: state.auth,
+  errors: state.errors
+})
+
+//connect is library that connects component to store
+//connect has two parameters 1)what to call when data comes in and 2) what to call for sending data out
+//Register component connected to registerUser action
+//Register component fires registerUser
+export default connect( mapStateToProps,{registerUser}) (Register);
