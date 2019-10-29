@@ -30,13 +30,13 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(newUser);
+    this.props.loginUser(newUser); //fire action
   }
 
   //triggers when props gets new data (nextProps)
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated){
-      this.props.history.push('/dashboard');
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
     }
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -106,13 +106,14 @@ Login.propTypes = {
 
 //take redux state/store data and attach to properties of component
 //say what data we want
+//put in connect function
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
 
 //connect is library that connects component to store
-//connect has two parameters 1)what to call when data comes in and 2) what to call for sending data out
+//connect has two parameters 1)what to call when data comes in and 2) what to call for sending data out (from UI to action)
 export default connect(
   mapStateToProps,
   { loginUser }

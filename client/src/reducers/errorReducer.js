@@ -7,7 +7,7 @@ const initialState={};
 export default function(state=initialState, action){
   switch (action.type) {
     case GET_ERRORS:
-      return action.payload; //write to store (no need to spread errors)
+      return action.payload; //write to store, no need to spread errors
     default:
       return state;  
   }

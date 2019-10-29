@@ -34,15 +34,14 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-
-    this.props.registerUser(newUser, this.props.history);
-
+    //registerUser was connected to Register component in last line so now registerUser is in property bag for Register and can be called by using this.props
+    this.props.registerUser(newUser, this.props.history); //fires action
   }
 
   //triggers when props gets new data (nextProps)
   componentWillReceiveProps(nextProps){
     if(nextProps.errors){
-      this.setState({errors:nextProps.errors})
+      this.setState({errors:nextProps.errors}) //set state in register component
     }
   }
   
@@ -145,6 +144,7 @@ Register.propTypes={
 
 //take redux state/store data and attach to properties of component
 //say what data we want
+//what to call when data comes in (in connect function below)
 const mapStateToProps=(state)=>({
   auth: state.auth,
   errors: state.errors

@@ -1,10 +1,11 @@
-import axios from "axios";
-
 //this file puts token in every header
+
+
+import axios from "axios";
 
 const setAuthToken = token => {
   if (token) {
-    //Apply to every request
+    //Apply to every request (same as putting token in authorization header in postman)
     axios.defaults.headers.common["Authorization"] = token;
   } else {
     //Delete auth header
