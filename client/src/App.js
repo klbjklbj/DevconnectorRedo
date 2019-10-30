@@ -14,6 +14,8 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/common/PrivateRoute";
 import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/edit-profile/EditProfile";
+import AddEducation from "./components/add-credentials/AddEducation";
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -53,6 +55,20 @@ class App extends Component {
                 path="/create-profile"
                 component={CreateProfile}
               />
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={EditProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
+                />
+              </Switch>
             </div>
             <Footer />
           </div>
